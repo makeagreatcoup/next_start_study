@@ -24,6 +24,8 @@ const Nav = () => {
     const setThisProviders = async () => {
       const res = await getProviders()
       setProviders(res)
+      console.log(providers)
+
     }
     setThisProviders()
   },[])
