@@ -5,9 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@auth/prisma-adapter':
-    specifier: ^1.0.1
-    version: registry.npmmirror.com/@auth/prisma-adapter@1.0.1(@prisma/client@5.1.1)
   '@next-auth/prisma-adapter':
     specifier: 0.4.4-canary.81
     version: registry.npmmirror.com/@next-auth/prisma-adapter@0.4.4-canary.81(@prisma/client@5.1.1)(next-auth@4.23.1)
@@ -88,38 +85,6 @@ packages:
     name: '@alloc/quick-lru'
     version: 5.2.0
     engines: {node: '>=10'}
-    dev: false
-
-  registry.npmmirror.com/@auth/core@0.9.0:
-    resolution: {integrity: sha512-W2WO0WCBg1T3P8+yjQPzurTQhPv6ecBYfJ2oE3uvXPAX5ZLWAMSjKFAIa9oLZy5pwrB+YehJZPnlIxVilhrVcg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@auth/core/-/core-0.9.0.tgz}
-    name: '@auth/core'
-    version: 0.9.0
-    peerDependencies:
-      nodemailer: ^6.8.0
-    peerDependenciesMeta:
-      nodemailer:
-        optional: true
-    dependencies:
-      '@panva/hkdf': registry.npmmirror.com/@panva/hkdf@1.1.1
-      cookie: registry.npmmirror.com/cookie@0.5.0
-      jose: registry.npmmirror.com/jose@4.14.4
-      oauth4webapi: registry.npmmirror.com/oauth4webapi@2.3.0
-      preact: registry.npmmirror.com/preact@10.11.3
-      preact-render-to-string: registry.npmmirror.com/preact-render-to-string@5.2.3(preact@10.11.3)
-    dev: false
-
-  registry.npmmirror.com/@auth/prisma-adapter@1.0.1(@prisma/client@5.1.1):
-    resolution: {integrity: sha512-sBp9l/jVr7l9y7rp2Pv6eoP7i8X2CgRNE3jDWJ0B/u+HnKRofXflD1cldPqRSAkJhqH3UxhVtMTEijT9FoofmQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@auth/prisma-adapter/-/prisma-adapter-1.0.1.tgz}
-    id: registry.npmmirror.com/@auth/prisma-adapter/1.0.1
-    name: '@auth/prisma-adapter'
-    version: 1.0.1
-    peerDependencies:
-      '@prisma/client': '>=2.26.0 || >=3 || >=4'
-    dependencies:
-      '@auth/core': registry.npmmirror.com/@auth/core@0.9.0
-      '@prisma/client': registry.npmmirror.com/@prisma/client@5.1.1(prisma@5.1.1)
-    transitivePeerDependencies:
-      - nodemailer
     dev: false
 
   registry.npmmirror.com/@babel/runtime@7.12.1:
@@ -3721,12 +3686,6 @@ packages:
       set-blocking: registry.npmmirror.com/set-blocking@2.0.0
     dev: false
 
-  registry.npmmirror.com/oauth4webapi@2.3.0:
-    resolution: {integrity: sha512-JGkb5doGrwzVDuHwgrR4nHJayzN4h59VCed6EW8Tql6iHDfZIabCJvg6wtbn5q6pyB2hZruI3b77Nudvq7NmvA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/oauth4webapi/-/oauth4webapi-2.3.0.tgz}
-    name: oauth4webapi
-    version: 2.3.0
-    dev: false
-
   registry.npmmirror.com/oauth@0.9.15:
     resolution: {integrity: sha512-a5ERWK1kh38ExDEfoO6qUHJb32rd7aYmPHuyCu3Fta/cnICvYmgd2uhuKXvPD+PXB+gCEYYEaQdIRAjCOwAKNA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/oauth/-/oauth-0.9.15.tgz}
     name: oauth
@@ -4160,18 +4119,6 @@ packages:
       xtend: registry.npmmirror.com/xtend@4.0.2
     dev: false
 
-  registry.npmmirror.com/preact-render-to-string@5.2.3(preact@10.11.3):
-    resolution: {integrity: sha512-aPDxUn5o3GhWdtJtW0svRC2SS/l8D9MAgo2+AWml+BhDImb27ALf04Q2d+AHqUUOc6RdSXFIBVa2gxzgMKgtZA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/preact-render-to-string/-/preact-render-to-string-5.2.3.tgz}
-    id: registry.npmmirror.com/preact-render-to-string/5.2.3
-    name: preact-render-to-string
-    version: 5.2.3
-    peerDependencies:
-      preact: '>=10'
-    dependencies:
-      preact: registry.npmmirror.com/preact@10.11.3
-      pretty-format: registry.npmmirror.com/pretty-format@3.8.0
-    dev: false
-
   registry.npmmirror.com/preact-render-to-string@5.2.6(preact@10.17.0):
     resolution: {integrity: sha512-JyhErpYOvBV1hEPwIxc/fHWXPfnEGdRKxc8gFdAZ7XV4tlzyzG847XAyEZqoDnynP88akM4eaHcSOzNcLWFguw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/preact-render-to-string/-/preact-render-to-string-5.2.6.tgz}
     id: registry.npmmirror.com/preact-render-to-string/5.2.6
@@ -4182,12 +4129,6 @@ packages:
     dependencies:
       preact: registry.npmmirror.com/preact@10.17.0
       pretty-format: registry.npmmirror.com/pretty-format@3.8.0
-    dev: false
-
-  registry.npmmirror.com/preact@10.11.3:
-    resolution: {integrity: sha512-eY93IVpod/zG3uMF22Unl8h9KkrcKIRs2EGar8hwLZZDU1lkjph303V9HZBwufh2s736U6VXuhD109LYqPoffg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/preact/-/preact-10.11.3.tgz}
-    name: preact
-    version: 10.11.3
     dev: false
 
   registry.npmmirror.com/preact@10.17.0:
