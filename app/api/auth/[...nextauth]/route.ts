@@ -10,7 +10,7 @@ import { getToken } from "next-auth/jwt";
 import { getCsrfToken } from "next-auth/react";
 
 
-const authHandler: NextApiHandler =async (req,rsp)=>NextAuth(req,rsp,{
+const authHandler: NextApiHandler =NextAuth({
   debug:true,
   logger:{
     debug: (code: string, metadata: unknown) => {
@@ -95,16 +95,4 @@ const authHandler: NextApiHandler =async (req,rsp)=>NextAuth(req,rsp,{
   //   }
   // }
 })
-// 使用 crypto 库
-const crypto = require('crypto')
-
-function generateCodeChallenge(codeVerifier: any) {
-  return crypto
-    .createHash('sha256') 
-    .update(codeVerifier)
-    .digest('base64')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_') 
-    .replace(/=/g, '')
-}
 export {authHandler as POST,authHandler as GET}
