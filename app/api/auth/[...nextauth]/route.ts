@@ -6,18 +6,18 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { NextApiHandler } from "next";
 import prisma from "@/prisma/prisma";
 import { AdapterUser } from "next-auth/adapters";
+import { getToken } from "next-auth/jwt";
+import { getCsrfToken } from "next-auth/react";
 
 
 const authHandler: NextApiHandler =async (req,rsp)=>NextAuth(req,rsp,{
+  debug:true,
+  logger:{
+    debug: (code: string, metadata: unknown) => {
+    }
+  },
+  secret: process.env.SECRET,
   providers: [
-    // {
-    //   authorization: {
-    //     params: {
-    //       state: process.env.STATE_SECRET 
-    //     }
-    //   },
-    //   timeout: 30 * 1000
-    // },
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string,
@@ -31,39 +31,80 @@ const authHandler: NextApiHandler =async (req,rsp)=>NextAuth(req,rsp,{
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
+      authorization:{
+        params:{
+          // code_challenge:generateCodeChallenge(process.env.STATE_SECRET),
+          // code_challenge_method:"S256",
+          state:process.env.STATE_SECRET,
+        },
+      },
+      profile:(profile:any)=>{
+        console.log("profile----------------------")
+        console.log(profile)
+        console.log("profile----------------------")
+        return {
+          id:profile.id,
+          name:profile.name,
+          email:profile.email,
+          image:profile.avatar_url,
+        }
+      },
+      httpOptions:{
+        // headers:{
+        //   Athorization:`Bearer ${getCsrfToken}`,
+        // },
+        timeout:50000,
+      },
     }),
   ],
-  adapter:PrismaAdapter(prisma),
-  callbacks: {
-    async signIn({ user, account, profile, email, credentials }:{user:User,account:Account|null,profile?:Profile,email?:any,credentials?:Record<string, any>}) {
-      if (email?.verificationRequest) {
-        // 邮箱验证流程
-      } else {  
-        // 正常登录流程 
-      }
-      console.log(user)
-      console.log(account)
-      console.log(profile)
-      console.log(email)
-      console.log(credentials)
-      return true
-    },
-    async redirect({ url, baseUrl }:{ url: string, baseUrl: string}) {
-      return baseUrl
-    },
-    async session({ session, user, token }:{ session: any, user: any, token: any}) {
-      session.accessToken = token.accessToken
-      session.user.id = token.id
-      return session
-    },
-    async jwt({ token, user, account, profile, isNewUser }:{ token: any, user: any, account: any, profile?: any, isNewUser?: boolean}) {
-      if (account) {
-        token.accessToken = account.access_token
-        token.id = profile.id
-      }
-      return token
-    }
-  }
+  // adapter:PrismaAdapter(prisma),
+  // callbacks: {
+  //   async signIn() {
+  //     console.log("signIn----------------------")
+  //     // if (email?.verificationRequest) {
+  //     //   // 邮箱验证流程
+  //     // } else {  
+  //     //   // 正常登录流程 
+  //     // }
+  //     // console.log(user)
+  //     // console.log(account)
+  //     // console.log(profile)
+  //     // console.log(email)
+  //     // console.log(credentials)
+  //     return true
+  //   },
+  //   async redirect({ url, baseUrl }:{ url: string, baseUrl: string}) {
+  //     console.log("redirect----------------------")
+  //     console.log("url"+url)
+  //     console.log("baseUrl"+baseUrl)
+  //     return baseUrl
+  //   },
+  //   async session({ session, user, token }:{ session: any, user: any, token: any}) {
+  //     console.log("session----------------------")
+  //     session.accessToken = token.accessToken
+  //     session.user.id = token.id
+  //     return session
+  //   },
+  //   async jwt({ token, user, account, profile, isNewUser }:{ token: any, user: any, account: any, profile?: any, isNewUser?: boolean}) {
+  //     console.log("jwt----------------------")
+  //     if (account) {
+  //       token.accessToken = account.access_token
+  //       token.id = profile.id
+  //     }
+  //     return token
+  //   }
+  // }
 })
+// 使用 crypto 库
+const crypto = require('crypto')
 
+function generateCodeChallenge(codeVerifier: any) {
+  return crypto
+    .createHash('sha256') 
+    .update(codeVerifier)
+    .digest('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_') 
+    .replace(/=/g, '')
+}
 export {authHandler as POST,authHandler as GET}

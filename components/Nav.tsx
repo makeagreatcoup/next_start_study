@@ -3,7 +3,7 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState , useEffect } from 'react'
-import {signIn , signOut , useSession , getProviders, LiteralUnion, ClientSafeProvider} from 'next-auth/react'
+import {signIn , signOut , useSession , getProviders, ClientSafeProvider,} from 'next-auth/react'
 
 type ProviderState = {
   // 定义 providers 类型
@@ -24,7 +24,6 @@ const Nav = () => {
     const setThisProviders = async () => {
       const res = await getProviders()
       setProviders(res)
-      console.log(providers)
 
     }
     setThisProviders()
@@ -59,7 +58,7 @@ const Nav = () => {
                       type='button' 
                       key={provider.id}
                       onClick={()=>{
-                        signIn(provider.id)}
+                        signIn()}
                       }
                       className='black_btn'>
                         登录

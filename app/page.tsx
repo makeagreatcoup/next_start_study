@@ -4,6 +4,7 @@ import Nav from '@/components/Nav'
 export default function Home() {
   return (
     <>
+    
       <section className="flex-col text-center h-screen tracking-widest">
         <h1 className='head_text text-center' >一个好的程序
         <br className='max-md:hidden' />
