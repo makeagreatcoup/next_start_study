@@ -18,26 +18,29 @@ const authHandler: NextApiHandler =NextAuth({
   },
   secret: process.env.SECRET,
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_ID as string,
-      clientSecret: process.env.GOOGLE_SECRET as string,
-      authorization:{
-        params:{
-          state:process.env.STATE_SECRET,
-        }
-      },
+    // GoogleProvider({
+    //   clientId: process.env.GOOGLE_ID as string,
+    //   clientSecret: process.env.GOOGLE_SECRET as string,
+    //   authorization:{
+    //     params:{
+    //       state:process.env.STATE_SECRET,
+    //     }
+    //   },
       
-    }),
+    // }),
     GithubProvider({
+      httpOptions:{
+        timeout:50000,
+      },
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
-      authorization:{
-        params:{
-          // code_challenge:generateCodeChallenge(process.env.STATE_SECRET),
-          // code_challenge_method:"S256",
-          state:process.env.STATE_SECRET,
-        },
-      },
+      // authorization:{
+      //   params:{
+      //     // code_challenge:generateCodeChallenge(process.env.STATE_SECRET),
+      //     // code_challenge_method:"S256",
+      //     state:process.env.STATE_SECRET,
+      //   },
+      // },
       profile:(profile:any)=>{
         console.log("profile----------------------")
         console.log(profile)
@@ -49,50 +52,45 @@ const authHandler: NextApiHandler =NextAuth({
           image:profile.avatar_url,
         }
       },
-      httpOptions:{
-        // headers:{
-        //   Athorization:`Bearer ${getCsrfToken}`,
-        // },
-        timeout:50000,
-      },
+
     }),
   ],
-  // adapter:PrismaAdapter(prisma),
-  // callbacks: {
-  //   async signIn() {
-  //     console.log("signIn----------------------")
-  //     // if (email?.verificationRequest) {
-  //     //   // 邮箱验证流程
-  //     // } else {  
-  //     //   // 正常登录流程 
-  //     // }
-  //     // console.log(user)
-  //     // console.log(account)
-  //     // console.log(profile)
-  //     // console.log(email)
-  //     // console.log(credentials)
-  //     return true
-  //   },
-  //   async redirect({ url, baseUrl }:{ url: string, baseUrl: string}) {
-  //     console.log("redirect----------------------")
-  //     console.log("url"+url)
-  //     console.log("baseUrl"+baseUrl)
-  //     return baseUrl
-  //   },
-  //   async session({ session, user, token }:{ session: any, user: any, token: any}) {
-  //     console.log("session----------------------")
-  //     session.accessToken = token.accessToken
-  //     session.user.id = token.id
-  //     return session
-  //   },
-  //   async jwt({ token, user, account, profile, isNewUser }:{ token: any, user: any, account: any, profile?: any, isNewUser?: boolean}) {
-  //     console.log("jwt----------------------")
-  //     if (account) {
-  //       token.accessToken = account.access_token
-  //       token.id = profile.id
-  //     }
-  //     return token
-  //   }
-  // }
+  adapter:PrismaAdapter(prisma),
+  callbacks: {
+    async signIn() {
+      console.log("signIn----------------------")
+      // if (email?.verificationRequest) {
+      //   // 邮箱验证流程
+      // } else {  
+      //   // 正常登录流程 
+      // }
+      // console.log(user)
+      // console.log(account)
+      // console.log(profile)
+      // console.log(email)
+      // console.log(credentials)
+      return true
+    },
+    async redirect({ url, baseUrl }:{ url: string, baseUrl: string}) {
+      console.log("redirect----------------------")
+      console.log("url:"+url)
+      console.log("baseUrl:"+baseUrl)
+      return baseUrl
+    },
+    async session({ session, user, token }:{ session: any, user: any, token: any}) {
+      console.log("session----------------------")
+      session.accessToken = token.accessToken
+      session.user.id = token.id
+      return session
+    },
+    async jwt({ token, user, account, profile, isNewUser }:{ token: any, user: any, account: any, profile?: any, isNewUser?: boolean}) {
+      console.log("jwt----------------------")
+      if (account) {
+        token.accessToken = account.access_token
+        token.id = profile.id
+      }
+      return token
+    }
+  }
 })
 export {authHandler as POST,authHandler as GET}

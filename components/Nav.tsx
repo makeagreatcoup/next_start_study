@@ -15,7 +15,7 @@ type ProviderState = {
 const Nav = () => {
   const {data:session} = useSession()
   const isLogged = session?.user
-
+  console.log(session)
   const [providers, setProviders] = useState<ProviderState | null>(null);
 
   const [toggle, setToggle] = useState(false)
@@ -73,7 +73,7 @@ const Nav = () => {
           {isLogged ? (
             <>
               <div className='flex gap-3 md:gap-5'>
-                <Image src={session?.user?.image as string} width={30} height={30} alt='profile' className='rounded-full'
+                <Image src={session?.user?.image as string&&''} width={30} height={30} alt='profile' className='rounded-full'
                   onClick={()=>setToggle((prev)=>!prev)}/>
               </div>
               {toggle&&(
