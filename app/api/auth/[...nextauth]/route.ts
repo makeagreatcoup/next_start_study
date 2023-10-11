@@ -47,7 +47,7 @@ const authHandler: NextApiHandler =NextAuth({
         console.log("profile----------------------")
         return {
           id:profile.id,
-          name:profile.name,
+          name:profile.login,
           email:profile.email,
           image:profile.avatar_url,
         }
@@ -57,40 +57,43 @@ const authHandler: NextApiHandler =NextAuth({
   ],
   adapter:PrismaAdapter(prisma),
   callbacks: {
-    async signIn() {
-      console.log("signIn----------------------")
-      // if (email?.verificationRequest) {
-      //   // 邮箱验证流程
-      // } else {  
-      //   // 正常登录流程 
-      // }
-      // console.log(user)
-      // console.log(account)
-      // console.log(profile)
-      // console.log(email)
-      // console.log(credentials)
-      return true
-    },
-    async redirect({ url, baseUrl }:{ url: string, baseUrl: string}) {
-      console.log("redirect----------------------")
-      console.log("url:"+url)
-      console.log("baseUrl:"+baseUrl)
-      return baseUrl
-    },
-    async session({ session, user, token }:{ session: any, user: any, token: any}) {
+
+    // async signIn({profile, email, user, account, credentials}) {
+    //   console.log("signIn----------------------")
+    //   // if (email?.verificationRequest) {
+    //   //   // 邮箱验证流程
+    //   // } else {  
+    //   //   // 正常登录流程 
+    //   // }
+    //   console.log(user)
+    //   console.log(account)
+    //   console.log(profile)
+    //   console.log(email)
+    //   console.log(credentials)
+    //   return true
+    // },
+    // async redirect({ url, baseUrl }:{ url: string, baseUrl: string}) {
+    //   console.log("redirect----------------------")
+    //   // console.log("url:"+url)
+    //   // console.log("baseUrl:"+baseUrl)
+    //   return baseUrl
+    // },
+    async session({session,user}:{session:any,user:any}) {
       console.log("session----------------------")
-      session.accessToken = token.accessToken
-      session.user.id = token.id
+      // console.log(user)
+      // console.log(token)
+      // session.accessToken = token.accessToken
+      session.user.id = user.id
       return session
     },
-    async jwt({ token, user, account, profile, isNewUser }:{ token: any, user: any, account: any, profile?: any, isNewUser?: boolean}) {
-      console.log("jwt----------------------")
-      if (account) {
-        token.accessToken = account.access_token
-        token.id = profile.id
-      }
-      return token
-    }
+    // async jwt({ token, user, account, profile, isNewUser }:{ token: any, user: any, account: any, profile?: any, isNewUser?: boolean}) {
+    //   console.log("jwt----------------------")
+    //   if (account) {
+    //     token.accessToken = account.access_token
+    //     token.id = profile.id
+    //   }
+    //   return token
+    // }
   }
 })
 export {authHandler as POST,authHandler as GET}

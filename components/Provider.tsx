@@ -4,9 +4,9 @@ import React from 'react'
 
 import { SessionProvider } from 'next-auth/react'
 
-const Provider = ({children}: {children:React.ReactNode}) => {
+const Provider = ({children,session}: {children:React.ReactNode,session?: Session}) => {
   return (
-    <SessionProvider>
+    <SessionProvider session={session}>
       {children}
     </SessionProvider>
   )

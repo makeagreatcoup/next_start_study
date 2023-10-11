@@ -15,19 +15,17 @@ type ProviderState = {
 const Nav = () => {
   const {data:session} = useSession()
   const isLogged = session?.user
-  console.log(session)
   const [providers, setProviders] = useState<ProviderState | null>(null);
 
   const [toggle, setToggle] = useState(false)
-
   useEffect(() => {
     const setThisProviders = async () => {
       const res = await getProviders()
       setProviders(res)
-
     }
     setThisProviders()
   },[])
+
   return (
     <>
       <nav className='flex-between w-full mb-16 pt-3 tracking-widest'>
@@ -39,12 +37,12 @@ const Nav = () => {
           {isLogged ? (
             <>
               <div className='flex gap-3 md:gap-5'>
-                <Link href='/creat' className='black_btn'>
+                <Link href='/create-prompt' className='black_btn'>
                   开始创建
                 </Link>
-                <button type='button' onClick={()=>signOut} className='outline_btn'>登出</button>
+                <button type='button' onClick={()=>signOut()} className='outline_btn'>登出</button>
                 <Link href='/profile'>
-                  <Image src='/next.svg' width={30} height={30} alt='profile' className='rounded-full'/>
+                  <Image src={session?.user?.image as string} width={30} height={30} alt='profile' className='rounded-full'/>
 
                 </Link>
               </div>
@@ -73,7 +71,7 @@ const Nav = () => {
           {isLogged ? (
             <>
               <div className='flex gap-3 md:gap-5'>
-                <Image src={session?.user?.image as string&&''} width={30} height={30} alt='profile' className='rounded-full'
+                <Image src={session?.user?.image as string} width={30} height={30} alt='profile' className='rounded-full'
                   onClick={()=>setToggle((prev)=>!prev)}/>
               </div>
               {toggle&&(
@@ -82,7 +80,7 @@ const Nav = () => {
                     onClick={()=>setToggle(false)}>
                       我的
                   </Link>
-                  <Link href='/creat' className='dropdown_link'onClick={()=>setToggle(false)}>
+                  <Link href='/create-prompt' className='dropdown_link'onClick={()=>setToggle(false)}>
                       创建
                   </Link>
                   <button type='button' onClick={()=>{
